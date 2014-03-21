@@ -1,0 +1,23 @@
+{
+  "family": "seajs",
+  "name": "seajs-gettext",
+  "version": "1.0.0",
+  "description": "gettext for seajs",
+  "homepage": "https://github.com/hotoo/seajs-gettext",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hotoo/seajs-gettext.git"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "keywords": ["widget"],
+  "licenses": "MIT",
+  "spm": {
+    "output": ["seajs-gettext.js"],
+    "alias": {},
+    "devAlias": {},
+    "engines": {}
+  }
+}
