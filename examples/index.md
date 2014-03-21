@@ -30,8 +30,9 @@ define("demo/locale/gl/LC_MESSAGES", [], {
 ````js
 define("demo", [], function(require, exports){
   var Gettext = require("gettext");
-  // {locale:} 后面的部分用于zhi d指定已定义的方言，不要加入未定义的方言，
-  //           同时不建议加入默认方言。
+  // {locale:zh-cn,gl} 中，后面的部分 `zh-cn,gl` 用于指定已定义的方言，
+  //                   不要加入未定义的方言，
+  //                   同时不建议加入默认方言。
   var locale = require("demo/locale/{locale:zh-cn,gl}/LC_MESSAGES");
   var gettext = new Gettext(locale);
 
