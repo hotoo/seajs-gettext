@@ -12,7 +12,8 @@
     return lang.replace(/_/g, "-").toLowerCase();
   }
 
-  var sys_local = toFixed(navigator.language);
+  var nav = navigator;
+  var sys_local = toFixed(nav.language || nav.userLanguage || nav.browserLanguage);
   var curr_locale = sys_local;
 
   seajs.on("resolve", function(data){
