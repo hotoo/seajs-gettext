@@ -46,6 +46,10 @@ define({
 
 设置全局的地点，当子模块未指定定点时，使用全局地点。
 
+### String seajs.getlocale()
+
+获取当前使用的本地方言名称。
+
 ### new Gettext(Object locale)
 
 构造函数，传入本地语言映射表。
