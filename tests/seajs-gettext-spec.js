@@ -5,6 +5,8 @@ define(function(require) {
   var locale = require('./locale/{locale:zh-cn,us-en}/LC_MESSAGES');
   var gettext = new Gettext(locale);
 
+  var seajs = window.seajs;
+
   var LOCALE_ZH_CN = require("./locale/zh-cn/LC_MESSAGES");
 
   function format(key){
@@ -31,6 +33,42 @@ define(function(require) {
       var key = "Hello %s.";
       var val = "World";
       expect(gettext(key, val)).to.equal(format(LOCALE_ZH_CN[key], val))
+    });
+
+    it('seajs.setlocale() and seajs.getlocale()', function() {
+      var locale1 = "us-en";
+      seajs.setlocale(locale1)
+      expect(gettext.getlocale()).to.equal(locale1);
+      expect(seajs.getlocale()).to.equal(gettext.getlocale());
+
+      var locale2 = "xxx";
+      seajs.setlocale(locale2)
+      expect(gettext.getlocale()).to.equal(locale2);
+      expect(seajs.getlocale()).to.equal(gettext.getlocale());
+    });
+
+    it('change locale:en-us', function(done) {
+      var lang0 = "en-us";
+      seajs.setlocale(lang0);
+      expect(seajs.getlocale()).to.equal(lang0);
+      seajs.use(["./module-" + lang0], function(gettext0){
+
+        expect(gettext0("locale")).to.equal(lang0);
+        done();
+
+      });
+    });
+
+    it('change locale:zh-tw', function(done) {
+      var lang0 = "zh-tw";
+      seajs.setlocale(lang0);
+      expect(seajs.getlocale()).to.equal(lang0);
+      seajs.use(["./module-" + lang0], function(gettext0){
+
+        expect(gettext0("locale")).to.equal(lang0);
+        done();
+
+      });
     });
   });
 
