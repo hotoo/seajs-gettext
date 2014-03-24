@@ -3,7 +3,7 @@
 
 ---
 
-gettext plugin for seajs.
+GNU `gettext` like for seajs.
 
 ---
 
