@@ -1,33 +1,58 @@
 (function(seajs){
 
-  var placeholder = "{locale(:[^}])}";
-  var re_placeholder = /\{locale(?:\:([^\}]*))\}/g;
-  // define(function(require,...){}) 中的 require 变量名。
-  var re_require = /^function\s*\(([^,\)]+)[^\)]*\)/;
-
-  var re_gettext = /(\w+)\s*=\s*require\s*\((['"])gettext\2\)/;
-  var locales_spliter = /[,; ]/;
-
+  // fixed non-standardized language name.
+  // @param {String} lang, language name.
+  // @return {String}
   function toFixed(lang){
     return lang.replace(/_/g, "-").toLowerCase();
   }
 
-  var nav = navigator;
-  var sys_local = toFixed(nav.language || nav.userLanguage || nav.browserLanguage);
-  var curr_locale = sys_local;
+  // trim string left and right spaces.
+  // @param {String} string
+  // @return {String}
+  function trim(string){
+    return string.replace(/^\s+/, "").replace(/\s+$/, "");
+  }
 
+  var re_placeholder = /\{locale(?:\:([^\}]*))?\}/g;
+  var locales_spliter = ",";
+  var nav = navigator;
+  var SYS_LOCALE = toFixed(
+    nav.language ||
+    nav.userLanguage ||
+    nav.browserLanguage ||
+    nav.systemLanguage ||
+    ""
+  );
+  var CURR_LOCALE = SYS_LOCALE;
+
+
+  // Set current locale name.
+  // @return {Seajs}
+  seajs.setlocale = function(locale){
+    CURR_LOCALE = locale || SYS_LOCALE;
+    return seajs;
+  };
+
+  // Get current locale name.
+  // @return {String}
+  seajs.getlocale = function(){
+    return CURR_LOCALE;
+  };
+
+
+  // resolve locales module id.
   seajs.on("resolve", function(data){
     var id = data.id;
     var m = re_placeholder.exec(id);
-    var hasLocale = false;
     if(m){
       var locales = m[1].split(locales_spliter);
 
       for(var i=0,l=locales.length; i<l; i++){
         // If defined user-language locale.
-        if(locales[i] === curr_locale){
-          data.id = id.replace(re_placeholder, curr_locale);
-          return; // not break.
+        if(trim(locales[i]) === CURR_LOCALE){
+          data.id = id.replace(re_placeholder, CURR_LOCALE);
+          return; // not break or continue.
         }
       }
 
@@ -36,29 +61,10 @@
     }
   });
 
-  seajs.on("define", function(meta){
+  // NOT SUPPORT AND NOT NEED.
+  //seajs.bindtextdomain = function(){};
+  //seajs.textdomain = function(){};
 
-    //var factory = meta.factory.toString();
-    ////var m = re_require.exec(factory);
-    ////var var_require = m ? m[1] : null;
-    //var m = re_gettext.exec(factory);
-    //if(m){
-        //console.log("m", m);
-      //var var_gettext = m[1];
-      //var re_locales = new RegExp(var_gettext + '\\.locales\\(([^\\)]+)\\)');
-      //console.log("reg", re_locales);
-      //if(m = re_locales.exec(factory)){
-        //var var_locale = m[1];
-        //console.log(var_locale);
-      //}
-      //meta.deps.push("/examples/locale/zh-cn/LC_MESSAGE.js");
-    //}
-
-  });
-
-  seajs.setlocale = function(locale){
-    curr_locale = locale || sys_local;
-  };
 
   define("gettext", [], function(require, exports, module){
 
@@ -70,26 +76,26 @@
         var args = arguments;
         var idx = 1;
         key = locale.hasOwnProperty(key) ? locale[key] : key;
-        key = key.replace(/(%[diuoxXfFeEgGaAcspn])/g, function($0, $1){
-          return args[idx++] || $1;
+        key = key.replace(/%!?[diuoxXfFeEgGaAcspn]/g, function($0){
+          var r = args[idx + 1];
+          return typeof r !== "undefined" ? r :
+            ($0.indexOf("%!")===0 ? "" : $0);
         });
         return key;
       };
-
-      gettext.setlocale = function(lc, locale){
-      };
-      gettext.bindtextdomain = function(){};
-      gettext.textdomain = function(){};
-      gettext.locales = function(){};
 
       return gettext;
 
     };
 
+    Gettext.setlocale = seajs.setlocale;
+    Gettext.getlocale = seajs.getlocale;
+
+    // NOT SUPPORT AND NOT NEED.
+    //Gettext.bindtextdomain = function(){};
+    //Gettext.textdomain = function(){};
+
     module.exports = Gettext;
-    exports.setlocale = function(){};
-    exports.bindtextdomain = function(){};
-    exports.textdomain = function(){};
   });
 
 })(this.seajs);
