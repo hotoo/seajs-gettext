@@ -65,24 +65,25 @@
   //seajs.bindtextdomain = function(){};
   //seajs.textdomain = function(){};
 
-
-  define("gettext", [], function(require, exports, module){
+  function _define(require, exports, module){
 
     var Gettext = function(locale){
 
       locale = locale || {};
 
       var gettext = function(key){
+        if(!key){return "";}
         var args = arguments;
         var idx = 1;
         key = locale.hasOwnProperty(key) ? locale[key] : key;
-        key = key.replace(/%!?[diuoxXfFeEgGaAcspn]/g, function($0){
-          var r = args[idx + 1];
+        key = key.replace(/%\!?[diuoxXfFeEgGaAcspn]\b/g, function($0, $1){
+          var r = args[idx++];
           return typeof r !== "undefined" ? r :
-            ($0.indexOf("%!")===0 ? "" : $0);
+            ($1.indexOf("%!")===0 ? "" : $1);
         });
         return key;
       };
+      gettext.getlocale = seajs.getlocale;
 
       return gettext;
 
@@ -96,6 +97,9 @@
     //Gettext.textdomain = function(){};
 
     module.exports = Gettext;
-  });
+  }
+
+  define("gettext", [], _define);
+  define(_define);
 
 })(this.seajs);
