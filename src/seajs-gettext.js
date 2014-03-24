@@ -40,6 +40,10 @@
     return CURR_LOCALE;
   };
 
+  // NOT SUPPORT AND NOT NEED.
+  //seajs.bindtextdomain = function(){};
+  //seajs.textdomain = function(){};
+
 
   // resolve locales module id.
   seajs.on("resolve", function(data){
@@ -60,10 +64,6 @@
       data.id = undefined;
     }
   });
-
-  // NOT SUPPORT AND NOT NEED.
-  //seajs.bindtextdomain = function(){};
-  //seajs.textdomain = function(){};
 
   function _define(require, exports, module){
 
@@ -88,13 +88,6 @@
       return gettext;
 
     };
-
-    Gettext.setlocale = seajs.setlocale;
-    Gettext.getlocale = seajs.getlocale;
-
-    // NOT SUPPORT AND NOT NEED.
-    //Gettext.bindtextdomain = function(){};
-    //Gettext.textdomain = function(){};
 
     module.exports = Gettext;
   }
