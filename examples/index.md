@@ -6,8 +6,8 @@
 
 <pre id="demo">...</pre>
 
-* 如果你的浏览器使用简体中文，上面会显示 `你好 Word。`。
-* 如果你的浏览器使用简体加利西亚语(Galician)，上面会显示 `Ola Word.`。
+* 如果你的浏览器使用简体中文(zh-cn)，上面会显示 `你好 Word。`。
+* 如果你的浏览器使用加利西亚语(gl, Galician)，上面会显示 `Ola Word.`。
 * 否则，上面会显示 `Hello Word.`。
 
 ----
@@ -44,9 +44,6 @@ define("demo", [], function(require, exports){
 
 ````js
 seajs.use(['$', 'demo'], function($, demo){
-  $("#demo").html(demo.hello);
-  return;
-  var gettext = new Gettext();
-  $("#demo").html(gettext("Hello %s.", "World"));
+  $("#demo").html(demo.hello + "<br/>locale: " + seajs.getlocale());
 });
 ````
