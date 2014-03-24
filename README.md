@@ -72,6 +72,47 @@ define({
 获取当前使用的本地方言名称。
 
 
+## 方言名称
+
+方言名称遵循国际化标准，目前全世界有大约 140种语言文字。
+
+一般方言名称遵循 `语言` 或 `语言-国家` 格式，如 `ja`, `zh-cn`
+
+更多参考 [Locale](https://github.com/hotoo/seajs-gettext/wiki/Locale)
+
+## 方言定义
+
+方言定义中，可以使用简单的文本，也可以使用具有特殊占位符的文本，这些特殊占位符
+可以用实际的数据进行替换。
+
+例如：
+
+```js
+var name = "@hotoo";
+gettext("My name is %s, I love %s beginning in %i.", name, "@lizzie", 2013);
+```
+
+支持的变量类型与 C 语言的 `printf()` 类似，但目前不支持格式化功能：
+
+* `%d`
+* `%i`
+* `%u`
+* `%o`
+* `%x`
+* `%X`
+* `%f`
+* `%F`
+* `%e`
+* `%E`
+* `%g`
+* `%G`
+* `%a`
+* `%A`
+* `%c`
+* `%s`
+* `%p`
+* `%n`
+
 ## 参考
 
 * [gettext](http://www.gnu.org/software/gettext/)
