@@ -27,7 +27,7 @@ project_path/locale/zh-tw/LC_MESSAGES.js
 
 ```js
 define({
-  "警告，熊出没注意。": "警告，熊出沒注意。"
+  "警告，熊出没注意。": "警示，狗熊出沒注意安全。"
 });
 ```
 
@@ -46,16 +46,16 @@ define({
 
 构造函数，传入本地方言的键值对映射表。
 
-一般 locale 通过形如 `require("./locale/{locale:zh-cn,us-en}/LC_MESSAGES")`
+一般 locale 通过形如 `require("./locale/{locale:zh-cn,en-us}/LC_MESSAGES")`
 这样的依赖关系方式导入。
 
-其中 `{locale:zh-cn,us-en}` 根据系统设置的方言，或用户使用的方言来决定。
+其中 `{locale:zh-cn,en-us}` 根据系统设置的方言，或用户使用的方言来决定。
 而冒号后面的部分指定了已定义的方言。
 
 
 ### String gettext(String id)
 
-转换指定 id 的字符串未特定的本地语言。
+转换指定 id 的字符串为特定的本地语言。
 
 
 ### seajs.setlocale(String locale)
@@ -92,7 +92,9 @@ var name = "@hotoo";
 gettext("My name is %s, I love %s beginning in %i.", name, "@lizzie", 2013);
 ```
 
-支持的变量类型与 C 语言的 `printf()` 类似，但目前不支持格式化功能：
+支持的变量类型与 C 语言的 `printf()` 类似，但目前不支持格式化功能。
+也就是说使用以下任意一种占位符效果都一样的，目前只将数据转换成字符串，
+然后进行替换。
 
 * `%d`
 * `%i`
@@ -112,6 +114,14 @@ gettext("My name is %s, I love %s beginning in %i.", name, "@lizzie", 2013);
 * `%s`
 * `%p`
 * `%n`
+
+特殊的，如果某个数据未定义，则对应的占位符不进行替换，原样返回。
+如果你需要使用其他更强的格式化工具（例如[node-printf](https://github.com/wdavidw/node-printf)），
+可以利用这个特性。
+
+```js
+printf(gettext("%.3f%%"), 3.1415926); // 3.142%
+```
 
 ## 参考
 
