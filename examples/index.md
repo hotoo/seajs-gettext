@@ -6,9 +6,9 @@
 
 <pre id="demo">...</pre>
 
-* 如果你的浏览器使用简体中文(zh-cn)，上面会显示 `你好 Word。`。
-* 如果你的浏览器使用加利西亚语(gl, Galician)，上面会显示 `Ola Word.`。
-* 否则，上面会显示 `Hello Word.`。
+* 如果你的浏览器使用简体中文(zh-cn)，上面会显示 `你好 World。`。
+* 如果你的浏览器使用加利西亚语(gl, Galician)，上面会显示 `Ola World.`。
+* 否则，上面会显示 `Hello World.`。
 
 ----
 
